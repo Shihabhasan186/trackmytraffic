@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}About Track{% endblock %}
+
+{% block content %}
+<div class="about-container">
+    <div class="about-section">
+        <h1>About TrackMyTraffic</h1>
+        <div class="about-content">
+            <h2>Our Story</h2>
+            <p>TrackMyTraffic is an innovative speed detection system designed to enhance road safety and traffic management. Our system utilizes advanced computer vision and machine learning technologies to accurately monitor vehicle speeds and identify violations in real-time.</p>
+            
+            <h2>Key Features</h2>
+            <ul>
+                <li>Real-time vehicle speed detection</li>
+                <li>Automatic number plate recognition</li>
+                <li>Violation recording and documentation</li>
+                <li>Automated fine generation system</li>
+                <li>Comprehensive reporting and analytics</li>
+            </ul>
+
+            <h2>Media Resources</h2>
+            <div class="media-links">
+                <ul>
+                    <li><a href="#">Press Releases</a></li>
+                    <li><a href="#">Media Coverage</a></li>
+                    <li><a href="#">Image Gallery</a></li>
+                </ul>
+            </div>
+
+            <h2>Quick Facts</h2>
+            <div class="quick-facts">
+                <ul>
+                    <li>Established: 2024</li>
+                    <li>Coverage: Multiple districts</li>
+                    <li>Success Rate: 99.9% accuracy in speed detection</li>
+                    <li>Processing: Real-time monitoring 24/7</li>
+                </ul>
+            </div>
+
+            <div class="certifications">
+                <h2>Certifications & Recognition</h2>
+                <div class="cert-logos">
+                    <img src="{{ url_for('static', filename='images/cert1.png') }}" alt="Certification 1">
+                    <img src="{{ url_for('static', filename='images/cert2.png') }}" alt="Certification 2">
+                    <img src="{{ url_for('static', filename='images/cert3.png') }}" alt="Certification 3">
+                    <img src="{{ url_for('static', filename='images/cert4.png') }}" alt="Certification 4">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.about-section {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 30px;
+}
+
+.about-section h1 {
+    color: #1a237e;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.about-content h2 {
+    color: #283593;
+    font-size: 1.8rem;
+    margin: 25px 0 15px;
+}
+
+.about-content p {
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.about-content ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.about-content ul li {
+    color: #444;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.about-content ul li:before {
+    content: "•";
+    color: #1a237e;
+    font-weight: bold;
+    position: absolute;
+    left: -20px;
+}
+
+.media-links ul, .quick-facts ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.media-links a {
+    color: #1a237e;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.media-links a:hover {
+    color: #283593;
+    text-decoration: underline;
+}
+
+.certifications {
+    margin-top: 40px;
+}
+
+.cert-logos {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.cert-logos img {
+    max-height: 80px;
+    width: auto;
+}
+
+@media (max-width: 768px) {
+    .about-section h1 {
+        font-size: 2rem;
+    }
+
+    .about-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .cert-logos {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cert-logos img {
+        margin-bottom: 20px;
+    }
+}
+</style>
+{% endblock %}

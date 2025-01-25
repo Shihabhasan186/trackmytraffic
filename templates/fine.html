@@ -1,0 +1,295 @@
+{% extends "base.html" %}
+
+{% block title %}Fines{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <h1 class="section-title">Speed Violation Fines</h1>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+                <tr class="table-header">
+                    <th>Track ID</th>
+                    <th>Number Plate</th>
+                    <th>Speed</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Fine Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if fines %}
+                    {% for fine in fines %}
+                        {% set speed = fine[6]|float if fine[6] is string else fine[6] %}
+                        <tr class="table-row" id="row-{{ fine[0] }}">
+                            <td>{{ fine[3] }}</td>
+                            <td>{{ fine[6] }}</td>
+                            <td>{{ fine[5] }}</td>
+                            <td>{{ fine[1] }}</td>
+                            <td>{{ fine[2] }}</td>
+                            <td class="fine-amount">BDT 1000</td>
+                            <td>
+                                <span class="status-badge pending" id="status-{{ fine[0] }}">PENDING</span>
+                            </td>
+                            <td>
+                                <form onsubmit="sendEmail(event, {{ fine[0] }})" method="POST">
+                                    <button type="submit" class="action-btn" id="btn-{{ fine[0] }}">Send Email</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="8" class="no-data">No fine records found</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Success Popup -->
+<div id="successPopup" class="popup">
+    <div class="popup-content">
+        <span class="popup-icon">✓</span>
+        <h3>Success!</h3>
+        <p>Email has been sent successfully.</p>
+    </div>
+</div>
+
+<style>
+.content-container {
+    padding: 2rem 5%;
+    margin-top: 60px;
+    background-color: #f5f5f5;
+}
+
+.section-title {
+    color: #1a237e;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-weight: bold;
+}
+
+.table-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+    margin-top: 2rem;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+.table-header {
+    background-color: #1a237e;
+    color: white;
+}
+
+.table-header th {
+    padding: 1.2rem 1rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+.table-row {
+    transition: background-color 0.3s ease;
+}
+
+.table-row:hover {
+    background-color: #f0f4ff;
+}
+
+.table-row td {
+    padding: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status-badge.pending {
+    background-color: #ffd700;
+    color: #000;
+}
+
+.action-btn {
+    background-color: #1a237e;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-btn:hover {
+    background-color: #283593;
+}
+
+.fine-amount {
+    color: #d32f2f;
+    font-weight: 600;
+}
+
+.no-data {
+    text-align: center;
+    color: #666;
+    padding: 2rem !important;
+    font-style: italic;
+}
+
+.alert {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.alert-success {
+    background-color: #c8e6c9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.alert-error {
+    background-color: #ffcdd2;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.5rem;
+    }
+    
+    .content-container {
+        padding: 1rem;
+    }
+}
+
+.status-badge.done {
+    background-color: #c8e6c9;
+    color: #2e7d32;
+}
+
+/* Popup Styles */
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: popupFadeIn 0.3s ease;
+}
+
+.popup-content {
+    text-align: center;
+}
+
+.popup-icon {
+    display: block;
+    font-size: 3rem;
+    color: #4CAF50;
+    margin-bottom: 1rem;
+}
+
+.popup h3 {
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.popup p {
+    color: #666;
+    margin: 0;
+}
+
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* Disable button styles */
+.action-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+</style>
+
+<script>
+function sendEmail(event, trackId) {
+    event.preventDefault();
+    
+    // Disable the button
+    const button = document.getElementById(`btn-${trackId}`);
+    button.disabled = true;
+    button.textContent = 'Sending...';
+
+    // Send the email
+    fetch(`/send_email/${trackId}`, {
+        method: 'POST',
+    })
+    .then(response => {
+        if (response.ok) {
+            // Show success popup
+            const popup = document.getElementById('successPopup');
+            popup.style.display = 'block';
+
+            // Change status to done
+            const statusBadge = document.getElementById(`status-${trackId}`);
+            statusBadge.textContent = 'DONE';
+            statusBadge.classList.remove('pending');
+            statusBadge.classList.add('done');
+
+            // Update button
+            button.textContent = 'Sent';
+
+            // Hide popup after 3 seconds
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 3000);
+        } else {
+            throw new Error('Failed to send email');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        button.disabled = false;
+        button.textContent = 'Send Email';
+        alert('Failed to send email. Please try again.');
+    });
+}
+</script>
+{% endblock %}

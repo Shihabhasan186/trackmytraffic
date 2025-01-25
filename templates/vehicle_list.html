@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Vehicle List{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <h1>Vehicle Speed Records</h1>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Track ID</th>
+                    <th>Number Plate</th>
+                    <th>Speed</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if vehicles %}
+                    {% for vehicle in vehicles %}
+                        <tr>
+                            <td>{{ vehicle[3] }}</td>
+                            <td>{{ vehicle[6] }}</td>
+                            <td>{{ vehicle[5] }}</td>
+                            <td>{{ vehicle[1] }}</td>
+                            <td>{{ vehicle[2] }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="no-data">No vehicle records found</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

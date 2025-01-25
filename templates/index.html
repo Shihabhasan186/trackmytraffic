@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="landing-container">
+    <div class="landing-content">
+        <h1>Welcome to TrackMyTraffic</h1>
+        <p>Track is a speed detection system that helps to monitor and manage vehicle speeds on roads.</p>
+        <a href="{{ url_for('login') }}" class="cta-button">Start Tracking Now</a>
+    </div>
+    <div class="landing-image">
+        <img src="{{ url_for('static', filename='images/landing.jpg') }}" alt="Landing Image">
+    </div>
+</div>
+
+<style>
+.landing-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5% 10%;
+    min-height: calc(100vh - 60px);
+    background-color: #f5f5f5;
+}
+
+.landing-content {
+    flex: 1;
+    padding-right: 5%;
+}
+
+.landing-content h1 {
+    font-size: 3rem;
+    color: #1a237e;
+    margin-bottom: 1.5rem;
+}
+
+.landing-content p {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: #1a237e;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #283593;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.landing-image {
+    flex: 1;
+    text-align: center;
+}
+
+.landing-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .landing-container {
+        flex-direction: column;
+        text-align: center;
+        padding: 5%;
+    }
+
+    .landing-content {
+        padding-right: 0;
+        margin-bottom: 2rem;
+    }
+
+    .landing-content h1 {
+        font-size: 2rem;
+    }
+
+    .landing-content p {
+        font-size: 1rem;
+    }
+
+    .cta-button {
+        padding: 0.8rem 1.6rem;
+        font-size: 1rem;
+    }
+}
+</style>
+{% endblock %}
